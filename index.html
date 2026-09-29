@@ -62,7 +62,8 @@ async function copiarConFormato(){
   const v=valores();
   if(!v.g||!v.s||!v.a||!v.b||!v.n||!v.sv){alert("Primero genere un memorándum completo.");return}
   const wordStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:justify;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
-  const refs='<p style="'+wordStyle+'">a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):'')+'</p><p style="'+wordStyle+'">&nbsp;</p>';
+  const refStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:left;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
+  const refs='<p style="'+refStyle+'">a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):'')+'</p><p style="'+refStyle+'">&nbsp;</p>';
   const p=t=>'<p style="'+wordStyle+'">'+t+'</p><p style="'+wordStyle+'">&nbsp;</p>';
   const html=refs+
     p('Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+esc(v.n)+', ha brindado el “'+esc(v.sv)+'”.')+
