@@ -52,9 +52,9 @@ function normalizarReferencia(s){
     .replace(/(NOTA Nº|INFORME Nº)\s+/g,"$1 ");
 }
 ["refa","refb","refc"].forEach(id=>$(id).addEventListener("input",e=>{
-  const ini=e.target.selectionStart;
   e.target.value=normalizarReferencia(e.target.value);
-  e.target.setSelectionRange(ini,ini);
+  const fin=e.target.value.length;
+  e.target.setSelectionRange(fin,fin);
 }));
 $("nombre").addEventListener("input",e=>{const ini=e.target.selectionStart;e.target.value=nombrePropio(e.target.value);e.target.setSelectionRange(ini,ini)});
 $("gerencia").onchange=()=>{const g=$("gerencia").value;$("sub").innerHTML='<option value="">Seleccione...</option>';if(g)Object.entries(data[g].subs).forEach(([k,v])=>$("sub").add(new Option(k+" - "+v,k)))};
