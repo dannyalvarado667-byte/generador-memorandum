@@ -34,6 +34,31 @@ const data={
 };
 const $=id=>document.getElementById(id);
 function nombrePropio(s){return s.toLocaleLowerCase("es-PE").replace(/(^|[\s'-])([a-záéíóúüñ])/g,(m,p,l)=>p+l.toLocaleUpperCase("es-PE"))}
+const tildesServicio={
+  "administracion":"administración","aplicacion":"aplicación","automatizacion":"automatización",
+  "comunicacion":"comunicación","configuracion":"configuración","coordinacion":"coordinación",
+  "documentacion":"documentación","ejecucion":"ejecución","evaluacion":"evaluación",
+  "gestion":"gestión","implementacion":"implementación","informacion":"información",
+  "innovacion":"innovación","integracion":"integración","migracion":"migración",
+  "operacion":"operación","optimizacion":"optimización","organizacion":"organización",
+  "planificacion":"planificación","produccion":"producción","programacion":"programación",
+  "proteccion":"protección","revision":"revisión","solucion":"solución",
+  "supervision":"supervisión","tecnologia":"tecnología","validacion":"validación",
+  "verificacion":"verificación","analisis":"análisis","diagnostico":"diagnóstico",
+  "tecnico":"técnico","tecnica":"técnica","informatico":"informático","informatica":"informática",
+  "electronico":"electrónico","electronica":"electrónica","telefonia":"telefonía",
+  "auditoria":"auditoría","asesoria":"asesoría","consultoria":"consultoría",
+  "monitoreo":"monitoreo","estadistica":"estadística","economico":"económico","economica":"económica",
+  "logistica":"logística","metodologia":"metodología","politica":"política","publico":"público",
+  "publica":"pública","codigo":"código","numero":"número","periodo":"período",
+  "modulo":"módulo","catalogo":"catálogo","parametro":"parámetro","caracteristica":"característica",
+  "especificacion":"especificación","instalacion":"instalación","actualizacion":"actualización",
+  "administrativo":"administrativo","administrativa":"administrativa","sistematizacion":"sistematización"
+};
+function corregirTilde(p){
+  const k=p.toLocaleLowerCase("es-PE");
+  return tildesServicio[k]||p;
+}
 function formatoServicio(s){
   const minusculas=new Set(["a","al","de","del","el","en","la","las","los","o","para","por","y"]);
   return s.toLocaleLowerCase("es-PE").split(/(\s+)/).map((p,i)=>{
@@ -41,9 +66,10 @@ function formatoServicio(s){
     const limpio=p.replace(/^[¿¡"'“”‘’(\[]+|[.,;:!?'"“”‘’)\]]+$/g,"");
     if(!limpio) return p;
     const original=limpio;
-    const base=original.toLocaleLowerCase("es-PE");
+    const corregido=corregirTilde(original);
+    const base=corregido.toLocaleLowerCase("es-PE");
     // Si el usuario escribe una sigla completamente en mayúsculas (ESSI, GCTIC, TI, etc.), se conserva.
-    if(original.length>=2 && original===original.toLocaleUpperCase("es-PE") && /[A-ZÁÉÍÓÚÜÑ]/.test(original)){
+    if(original.length>=2 && original===original.toLocaleUpperCase("es-PE") && /[A-ZÁÉÍÓÚÜÑ]/.test(original) && !tildesServicio[original.toLocaleLowerCase("es-PE")]){
       return p.replace(limpio,original);
     }
     const palabra=(i>0 && minusculas.has(base))?base:base.charAt(0).toLocaleUpperCase("es-PE")+base.slice(1);
