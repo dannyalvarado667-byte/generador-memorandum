@@ -4,17 +4,27 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Generador de Memorándum</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}.top{background:linear-gradient(120deg,#0876c9,#0759a8);color:#fff;padding:22px 5%;display:flex;align-items:center;gap:34px}.brand{font-size:42px;font-weight:700}.top h1{margin:0;font-size:30px}.top p{margin:4px 0 0;font-size:18px}.wrap{display:grid;grid-template-columns:minmax(340px,.9fr) minmax(440px,1.1fr);gap:20px;padding:20px;max-width:1500px;margin:auto}.card{background:#fff;border:1px solid #dce6f1;border-radius:14px;padding:22px;box-shadow:0 3px 14px #183b5b12}.title{font-size:22px;font-weight:700;margin:0 0 18px}.hint{background:#eaf5ff;color:#0759a8;padding:13px;border-radius:8px;margin-bottom:18px}label{display:block;font-weight:700;margin:15px 0 6px}select,input,textarea{width:100%;font:16px Arial;padding:11px 12px;border:1px solid #b8c7d9;border-radius:7px;background:#fff}.refrow{display:grid;grid-template-columns:145px 1fr;gap:8px}.refrow select,.refrow input{min-width:0}textarea{min-height:105px;resize:vertical}.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.primary{grid-column:1/-1;background:#0874c9;color:white;border:0;border-radius:7px;padding:14px;font-size:17px;font-weight:700;cursor:pointer}.secondary{background:white;border:1px solid #b8c7d9;border-radius:7px;padding:12px;font-size:16px;cursor:pointer}.paper{border:1px solid #d4dde8;border-radius:6px;padding:36px 40px;min-height:650px;background:white}.refs{line-height:1.5;margin-bottom:30px}.memo p{font-family:Arial,sans-serif;font-weight:400;line-height:1.5;text-align:justify;margin:0 0 18px}.empty{color:#7b8794;text-align:center!important;margin-top:180px!important}.ok{color:#187a39;font-size:14px;margin-left:8px;display:none}.copy-result{float:right;background:#0874c9;color:#fff;border:0;border-radius:7px;padding:9px 14px;font:15px Arial;cursor:pointer}@media(max-width:900px){.wrap{grid-template-columns:1fr}.top{padding:18px}.brand{font-size:30px}.top h1{font-size:23px}.paper{padding:25px 22px}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}.top{background:linear-gradient(120deg,#0876c9,#0759a8);color:#fff;padding:22px 5%;display:flex;align-items:center;gap:34px}.brand{font-size:42px;font-weight:700}.top h1{margin:0;font-size:30px}.top p{margin:4px 0 0;font-size:18px}.wrap{display:grid;grid-template-columns:minmax(340px,.9fr) minmax(440px,1.1fr);gap:20px;padding:20px;max-width:1500px;margin:auto}.card{background:#fff;border:1px solid #dce6f1;border-radius:14px;padding:22px;box-shadow:0 3px 14px #183b5b12}.title{font-size:22px;font-weight:700;margin:0 0 18px}.hint{background:#eaf5ff;color:#0759a8;padding:13px;border-radius:8px;margin-bottom:18px}label{display:block;font-weight:700;margin:15px 0 6px}select,input,textarea{width:100%;font:16px Arial;padding:11px 12px;border:1px solid #b8c7d9;border-radius:7px;background:#fff}.refrow{display:grid;grid-template-columns:145px 1fr;gap:8px}.hidden{display:none!important}.refrow select,.refrow input{min-width:0}textarea{min-height:105px;resize:vertical}.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.primary{grid-column:1/-1;background:#0874c9;color:white;border:0;border-radius:7px;padding:14px;font-size:17px;font-weight:700;cursor:pointer}.secondary{background:white;border:1px solid #b8c7d9;border-radius:7px;padding:12px;font-size:16px;cursor:pointer}.paper{border:1px solid #d4dde8;border-radius:6px;padding:36px 40px;min-height:650px;background:white}.refs{line-height:1.5;margin-bottom:30px}.memo p{font-family:Arial,sans-serif;font-weight:400;line-height:1.5;text-align:justify;margin:0 0 18px}.empty{color:#7b8794;text-align:center!important;margin-top:180px!important}.ok{color:#187a39;font-size:14px;margin-left:8px;display:none}.copy-result{float:right;background:#0874c9;color:#fff;border:0;border-radius:7px;padding:9px 14px;font:15px Arial;cursor:pointer}@media(max-width:900px){.wrap{grid-template-columns:1fr}.top{padding:18px}.brand{font-size:30px}.top h1{font-size:23px}.paper{padding:25px 22px}}
 </style></head>
 <body>
 <header class="top"><div class="brand">GCTIC</div><div><h1>Generador de Memorándum</h1><p>Pago de locación de servicios · Versión 1.0</p></div></header>
 <main class="wrap">
 <section class="card"><h2 class="title">1. Ingresar datos</h2><div class="hint">Complete únicamente los datos variables. El sistema generará la redacción del memorándum.</div>
-<label>Gerencia</label><select id="gerencia"><option value="">Seleccione...</option><option value="GSIT">GSIT - Gerencia de Sistemas e Innovación Tecnológica</option><option value="GPROD">GPROD - Gerencia de Producción</option></select>
-<label>Subgerencia</label><select id="sub"><option value="">Primero seleccione una gerencia</option></select>
-<label>Referencia a)</label><div class="refrow"><select id="tipoa"><option value="">Seleccione...</option><option value="NOTA Nº">NOTA Nº</option><option value="INFORME Nº">INFORME Nº</option></select><input id="refa" placeholder="Ej.: 001118-2026/GSIT-GCTIC"></div>
-<label>Referencia b)</label><div class="refrow"><select id="tipob"><option value="">Seleccione...</option><option value="NOTA Nº">NOTA Nº</option><option value="INFORME Nº">INFORME Nº</option></select><input id="refb" placeholder="Ej.: 000287-2026/SGSA-GSIT-GCTIC"></div>
-<label>Referencia c) <span style="font-weight:400;color:#6b7280">(opcional)</span></label><div class="refrow"><select id="tipoc"><option value="">Seleccione...</option><option value="NOTA Nº">NOTA Nº</option><option value="INFORME Nº">INFORME Nº</option></select><input id="refc" placeholder="Número del documento"></div>
+<label>Tipo de dependencia del locador</label>
+<select id="tipoDependencia"><option value="">Seleccione...</option><option value="subgerencia">Subgerencia</option><option value="despacho">Despacho / Oficina</option></select>
+
+<div id="bloqueGerencia" class="hidden"><label id="labelGerencia">Gerencia</label><select id="gerencia"><option value="">Seleccione...</option></select></div>
+<div id="bloqueSub" class="hidden"><label>Subgerencia</label><select id="sub"><option value="">Primero seleccione una gerencia</option></select></div>
+
+<label>Entregable</label>
+<select id="entregable"><option value="Único Entregable" selected>Único Entregable</option><option value="Primer Entregable">Primer Entregable</option><option value="Segundo Entregable">Segundo Entregable</option></select>
+
+<label>Orden de Compra</label>
+<div class="refrow"><input value="OC N°" disabled><input id="oc" inputmode="numeric" placeholder="Ej.: 4505485464"></div>
+
+<label>Referencia a)</label><div class="refrow"><select id="tipoa"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refa" placeholder="Ej.: 001118-2026/GSIT-GCTIC"></div>
+<div id="bloqueRefB"><label>Referencia b)</label><div class="refrow"><select id="tipob"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refb" placeholder="Ej.: 000287-2026/SGSA-GSIT-GCTIC"></div></div>
+<div id="bloqueRefC"><label>Referencia c) <span style="font-weight:400;color:#6b7280">(opcional)</span></label><div class="refrow"><select id="tipoc"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refc" placeholder="Número del documento"></div></div>
 <label>Nombre del locador(a)</label><input id="nombre" placeholder="Apellidos y nombres">
 <label>Denominación del servicio</label><textarea id="servicio" placeholder="Ingrese la denominación exactamente como corresponde"></textarea>
 <div class="btns"><button class="primary" id="generar">Generar memorándum</button><button class="secondary" id="limpiar">Limpiar</button><button class="secondary" id="copiar">Copiar texto</button></div>
@@ -23,6 +33,8 @@
 </main>
 <script>
 const data={
+ GCTIC:{nombre:"Gerencia Central de Tecnologías de Información y Comunicaciones",subs:{}},
+ OSIN:{nombre:"Oficina de Seguridad Informática",subs:{}},
  GSIT:{nombre:"Gerencia de Sistemas e Innovación Tecnológica",subs:{
   SGSASIST:"Sub Gerencia de Sistemas Asistenciales",
   SGSASS:"Sub Gerencia de Sistemas de Aseguramiento",
@@ -83,36 +95,63 @@ $("servicio").addEventListener("blur",e=>{e.target.value=formatoServicio(e.targe
   e.target.setSelectionRange(ini,fin);
 }));
 $("nombre").addEventListener("input",e=>{const ini=e.target.selectionStart;e.target.value=nombrePropio(e.target.value);e.target.setSelectionRange(ini,ini)});
-$("gerencia").onchange=()=>{const g=$("gerencia").value;$("sub").innerHTML='<option value="">Seleccione...</option>';if(g)Object.entries(data[g].subs).forEach(([k,v])=>$("sub").add(new Option(k+" - "+v,k)))};
-function valores(){const g=$("gerencia").value,s=$("sub").value;return{g,s,gn:g?data[g].nombre:"",sn:g&&s?data[g].subs[s]:"",a:$("tipoa").value&&$("refa").value.trim()?$("tipoa").value+" "+$("refa").value.trim():"",b:$("tipob").value&&$("refb").value.trim()?$("tipob").value+" "+$("refb").value.trim():"",c:$("tipoc").value&&$("refc").value.trim()?$("tipoc").value+" "+$("refc").value.trim():"",n:nombrePropio($("nombre").value.trim()),sv:formatoServicio($("servicio").value.trim())}}
-function texto(v){return 'a) '+v.a+'\nb) '+v.b+'\n\nTengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+v.sv+'”.\n\nAl respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio.\n\nEn ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.\n\nAtentamente,'}
-$("generar").onclick=()=>{const v=valores();if(!v.g||!v.s||!v.a||!v.b||!v.n||!v.sv){alert("Complete todos los campos.");return}
-$("salida").innerHTML='<div class="refs">a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):'')+'</div><div class="memo"><p>Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+esc(v.n)+', ha brindado el “'+esc(v.sv)+'”.</p><p>Al respecto, teniendo en consideración que la '+esc(v.gn)+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+esc(v.sn)+', ha brindado la conformidad del servicio.</p><p>En ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.</p><p>Atentamente,</p></div>';};
-$("limpiar").onclick=()=>{["refa","refb","refc","nombre","servicio","tipoa","tipob","tipoc"].forEach(x=>$(x).value="");$("gerencia").value="";$("gerencia").onchange();$("salida").innerHTML='<p class="empty">Complete los datos y pulse “Generar memorándum”.</p>'};
+function cargarGerencias(){
+  const t=$("tipoDependencia").value;
+  $("gerencia").innerHTML='<option value="">Seleccione...</option>';
+  const permitidas=t==="subgerencia"?["GSIT","GPROD"]:["GCTIC","OSIN","GPROD","GSIT"];
+  permitidas.forEach(k=>$("gerencia").add(new Option(k+" - "+data[k].nombre,k)));
+}
+$("tipoDependencia").onchange=()=>{
+  const t=$("tipoDependencia").value;
+  $("bloqueGerencia").classList.toggle("hidden",!t);
+  $("bloqueSub").classList.toggle("hidden",t!=="subgerencia");
+  $("bloqueRefB").classList.toggle("hidden",t!=="subgerencia");
+  $("bloqueRefC").classList.toggle("hidden",t!=="subgerencia");
+  $("labelGerencia").textContent=t==="despacho"?"Despacho / Oficina":"Gerencia";
+  cargarGerencias();$("sub").innerHTML='<option value="">Primero seleccione una gerencia</option>';
+};
+$("gerencia").onchange=()=>{
+  const g=$("gerencia").value;
+  $("sub").innerHTML='<option value="">Seleccione...</option>';
+  if($("tipoDependencia").value==="subgerencia"&&g)Object.entries(data[g].subs).forEach(([k,v])=>$("sub").add(new Option(k+" - "+v,k)));
+};
+function valores(){
+ const t=$("tipoDependencia").value,g=$("gerencia").value,s=$("sub").value;
+ return{t,g,s,gn:g?data[g].nombre:"",sn:g&&s&&data[g].subs[s]?data[g].subs[s]:"",
+  ent:$("entregable").value,oc:$("oc").value.trim(),
+  a:$("tipoa").value&&$("refa").value.trim()?$("tipoa").value+" "+$("refa").value.trim():"",
+  b:$("tipob").value&&$("refb").value.trim()?$("tipob").value+" "+$("refb").value.trim():"",
+  c:$("tipoc").value&&$("refc").value.trim()?$("tipoc").value+" "+$("refc").value.trim():"",
+  n:nombrePropio($("nombre").value.trim()),sv:formatoServicio($("servicio").value.trim())}
+}
+function parrafos(v){
+ const p1='Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+v.sv+'”, según OC N° '+v.oc+'.';
+ const p2=v.t==="subgerencia"
+  ?'Al respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio correspondiente al '+v.ent+'.'
+  :'Al respecto, teniendo en consideración que la '+v.gn+' ha brindado la conformidad del servicio con el documento de la referencia, correspondiente al '+v.ent+'.';
+ const p3='En ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.';
+ return[p1,p2,p3,'Atentamente,'];
+}
+function referenciasTexto(v){return v.t==="subgerencia"?'a) '+v.a+'\nb) '+v.b+(v.c?'\nc) '+v.c:''):'a) '+v.a}
+function texto(v){return referenciasTexto(v)+'\n\n'+parrafos(v).join('\n\n')}
+function valido(v){return v.t&&v.g&&v.ent&&v.oc&&v.a&&v.n&&v.sv&&(v.t!=="subgerencia"||(v.s&&v.b))}
+$("generar").onclick=()=>{const v=valores();if(!valido(v)){alert("Complete todos los campos obligatorios.");return}
+ const refs=v.t==="subgerencia"?'a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):''):'a) '+esc(v.a);
+ const ps=parrafos(v);
+ $("salida").innerHTML='<div class="refs">'+refs+'</div><div class="memo">'+ps.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>';
+};
+$("limpiar").onclick=()=>{["refa","refb","refc","oc","nombre","servicio","tipoa","tipob","tipoc"].forEach(x=>$(x).value="");$("tipoDependencia").value="";$("entregable").value="Único Entregable";$("tipoDependencia").onchange();$("salida").innerHTML='<p class="empty">Complete los datos y pulse “Generar memorándum”.</p>'};
 async function copiarConFormato(){
-  const v=valores();
-  if(!v.g||!v.s||!v.a||!v.b||!v.n||!v.sv){alert("Primero genere un memorándum completo.");return}
+  const v=valores();if(!valido(v)){alert("Primero genere un memorándum completo.");return}
   const wordStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:justify;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
   const refStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:left;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
-  const refs='<p style="'+refStyle+'">a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):'')+'</p><p style="'+refStyle+'">&nbsp;</p>';
-  const p=t=>'<p style="'+wordStyle+'">'+t+'</p><p style="'+wordStyle+'">&nbsp;</p>';
-  const html=refs+
-    p('Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+esc(v.n)+', ha brindado el “'+esc(v.sv)+'”.')+
-    p('Al respecto, teniendo en consideración que la '+esc(v.gn)+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+esc(v.sn)+', ha brindado la conformidad del servicio.')+
-    p('En ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.')+
-    p('Atentamente,');
-  try{
-    await navigator.clipboard.write([new ClipboardItem({
-      "text/html":new Blob([html],{type:"text/html"}),
-      "text/plain":new Blob([texto(v)],{type:"text/plain"})
-    })]);
-    $("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600);
-  }catch(e){
-    await navigator.clipboard.writeText(texto(v));
-    alert("Se copió el texto. Su navegador no permitió copiar el formato enriquecido.");
-  }
+  const refs='<p style="'+refStyle+'">'+referenciasTexto(v).split('\n').map(esc).join('<br>')+'</p><p style="'+refStyle+'">&nbsp;</p>';
+  const p=t=>'<p style="'+wordStyle+'">'+esc(t)+'</p><p style="'+wordStyle+'">&nbsp;</p>';
+  const html=refs+parrafos(v).map(p).join('');
+  try{await navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([html],{type:"text/html"}),"text/plain":new Blob([texto(v)],{type:"text/plain"})})]);$("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600)}
+  catch(e){await navigator.clipboard.writeText(texto(v));alert("Se copió el texto. Su navegador no permitió copiar el formato enriquecido.");}
 }
 $("copiarFormato").onclick=copiarConFormato;
-$("copiar").onclick=async()=>{const v=valores();if(!v.g||!v.s||!v.a||!v.b||!v.n||!v.sv){alert("Primero genere un memorándum completo.");return}await navigator.clipboard.writeText(texto(v));$("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600)};
+$("copiar").onclick=async()=>{const v=valores();if(!valido(v)){alert("Primero genere un memorándum completo.");return}await navigator.clipboard.writeText(texto(v));$("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600)};
 function esc(x){return x.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 </script></body></html>
