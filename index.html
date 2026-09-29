@@ -34,7 +34,10 @@ const data={
 const $=id=>document.getElementById(id);
 function nombrePropio(s){return s.toLocaleLowerCase("es-PE").replace(/(^|[\s'-])([a-záéíóúüñ])/g,(m,p,l)=>p+l.toLocaleUpperCase("es-PE"))}
 function normalizarReferencia(s){
-  return s.replace(/\bnota\b/gi,"NOTA").replace(/\binforme\b/gi,"INFORME");
+  return s
+    .replace(/\bnota\b(?:\s*(?:n[.°ºo]?|nro\.?|núm(?:ero)?\.?)\s*)?/gi,"NOTA Nº ")
+    .replace(/\binforme\b(?:\s*(?:n[.°ºo]?|nro\.?|núm(?:ero)?\.?)\s*)?/gi,"INFORME Nº ")
+    .replace(/(NOTA Nº|INFORME Nº)\s+/g,"$1 ");
 }
 ["refa","refb","refc"].forEach(id=>$(id).addEventListener("input",e=>{
   const ini=e.target.selectionStart;
