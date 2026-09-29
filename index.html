@@ -20,7 +20,7 @@
 <select id="entregable"><option value="Único Entregable" selected>Único Entregable</option><option value="Primer Entregable">Primer Entregable</option><option value="Segundo Entregable">Segundo Entregable</option></select>
 
 <label>Orden de Compra</label>
-<div class="refrow"><input value="OC N°" disabled><input id="oc" inputmode="numeric" pattern="[0-9]*" placeholder="Ej.: 4505485464"></div>
+<div class="refrow"><input value="OC N°" disabled><input id="oc" type="number" min="0" step="1" inputmode="numeric" placeholder="Ej.: 4505485464"></div>
 
 <label>Referencia a)</label><div class="refrow"><select id="tipoa"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refa" placeholder="Ej.: 001118-2026/GSIT-GCTIC"></div>
 <div id="bloqueRefB"><label>Referencia b)</label><div class="refrow"><select id="tipob"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refb" placeholder="Ej.: 000287-2026/SGSA-GSIT-GCTIC"></div></div>
@@ -89,7 +89,7 @@ function formatoServicio(s){
   }).join("");
 }
 $("servicio").addEventListener("blur",e=>{e.target.value=formatoServicio(e.target.value.trim())});
-$("oc").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\\D/g,"")});
+$("oc").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"")});
 ["refa","refb","refc"].forEach(id=>$(id).addEventListener("input",e=>{
   const ini=e.target.selectionStart, fin=e.target.selectionEnd;
   e.target.value=e.target.value.toLocaleUpperCase("es-PE");
