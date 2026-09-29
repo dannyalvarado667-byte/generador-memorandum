@@ -33,6 +33,18 @@ const data={
 };
 const $=id=>document.getElementById(id);
 function nombrePropio(s){return s.toLocaleLowerCase("es-PE").replace(/(^|[\s'-])([a-záéíóúüñ])/g,(m,p,l)=>p+l.toLocaleUpperCase("es-PE"))}
+function formatoServicio(s){
+  const minusculas=new Set(["a","al","de","del","el","en","la","las","los","o","para","por","y"]);
+  return s.toLocaleLowerCase("es-PE").split(/(\s+)/).map((p,i)=>{
+    if(/^\s+$/.test(p)) return p;
+    const limpio=p.replace(/^[¿¡"'“”‘’(\[]+|[.,;:!?'"“”‘’)\]]+$/g,"");
+    if(!limpio) return p;
+    const base=limpio.toLocaleLowerCase("es-PE");
+    const palabra=(i>0 && minusculas.has(base))?base:base.charAt(0).toLocaleUpperCase("es-PE")+base.slice(1);
+    return p.replace(limpio,palabra);
+  }).join("");
+}
+$("servicio").addEventListener("blur",e=>{e.target.value=formatoServicio(e.target.value.trim())});
 function normalizarReferencia(s){
   return s
     .replace(/\bnota\b(?:\s*(?:n[.°ºo]?|nro\.?|núm(?:ero)?\.?)\s*)?/gi,"NOTA Nº ")
@@ -46,7 +58,7 @@ function normalizarReferencia(s){
 }));
 $("nombre").addEventListener("input",e=>{const ini=e.target.selectionStart;e.target.value=nombrePropio(e.target.value);e.target.setSelectionRange(ini,ini)});
 $("gerencia").onchange=()=>{const g=$("gerencia").value;$("sub").innerHTML='<option value="">Seleccione...</option>';if(g)Object.entries(data[g].subs).forEach(([k,v])=>$("sub").add(new Option(k+" - "+v,k)))};
-function valores(){const g=$("gerencia").value,s=$("sub").value;return{g,s,gn:g?data[g].nombre:"",sn:g&&s?data[g].subs[s]:"",a:normalizarReferencia($("refa").value.trim()),b:normalizarReferencia($("refb").value.trim()),c:normalizarReferencia($("refc").value.trim()),n:nombrePropio($("nombre").value.trim()),sv:$("servicio").value.trim()}}
+function valores(){const g=$("gerencia").value,s=$("sub").value;return{g,s,gn:g?data[g].nombre:"",sn:g&&s?data[g].subs[s]:"",a:normalizarReferencia($("refa").value.trim()),b:normalizarReferencia($("refb").value.trim()),c:normalizarReferencia($("refc").value.trim()),n:nombrePropio($("nombre").value.trim()),sv:formatoServicio($("servicio").value.trim())}}
 function texto(v){return 'a) '+v.a+'\nb) '+v.b+'\n\nTengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+v.sv+'”.\n\nAl respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio.\n\nEn ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.\n\nAtentamente,'}
 $("generar").onclick=()=>{const v=valores();if(!v.g||!v.s||!v.a||!v.b||!v.n||!v.sv){alert("Complete todos los campos.");return}
 $("salida").innerHTML='<div class="refs">a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):'')+'</div><div class="memo"><p>Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+esc(v.n)+', ha brindado el “'+esc(v.sv)+'”.</p><p>Al respecto, teniendo en consideración que la '+esc(v.gn)+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+esc(v.sn)+', ha brindado la conformidad del servicio.</p><p>En ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.</p><p>Atentamente,</p></div>';};
