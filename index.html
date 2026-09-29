@@ -20,7 +20,7 @@
 <select id="entregable"><option value="Único Entregable" selected>Único Entregable</option><option value="Primer Entregable">Primer Entregable</option><option value="Segundo Entregable">Segundo Entregable</option></select>
 
 <label>Orden de Compra</label>
-<div class="refrow"><input value="OC N°" disabled><input id="oc" inputmode="numeric" placeholder="Ej.: 4505485464"></div>
+<div class="refrow"><input value="OC N°" disabled><input id="oc" inputmode="numeric" pattern="[0-9]*" placeholder="Ej.: 4505485464"></div>
 
 <label>Referencia a)</label><div class="refrow"><select id="tipoa"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refa" placeholder="Ej.: 001118-2026/GSIT-GCTIC"></div>
 <div id="bloqueRefB"><label>Referencia b)</label><div class="refrow"><select id="tipob"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refb" placeholder="Ej.: 000287-2026/SGSA-GSIT-GCTIC"></div></div>
@@ -89,6 +89,7 @@ function formatoServicio(s){
   }).join("");
 }
 $("servicio").addEventListener("blur",e=>{e.target.value=formatoServicio(e.target.value.trim())});
+$("oc").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\\D/g,"")});
 ["refa","refb","refc"].forEach(id=>$(id).addEventListener("input",e=>{
   const ini=e.target.selectionStart, fin=e.target.selectionEnd;
   e.target.value=e.target.value.toLocaleUpperCase("es-PE");
@@ -105,8 +106,8 @@ $("tipoDependencia").onchange=()=>{
   const t=$("tipoDependencia").value;
   $("bloqueGerencia").classList.toggle("hidden",!t);
   $("bloqueSub").classList.toggle("hidden",t!=="subgerencia");
-  $("bloqueRefB").classList.toggle("hidden",t!=="subgerencia");
-  $("bloqueRefC").classList.toggle("hidden",t!=="subgerencia");
+  $("bloqueRefB").classList.remove("hidden");
+  $("bloqueRefC").classList.remove("hidden");
   $("labelGerencia").textContent=t==="despacho"?"Despacho / Oficina":"Gerencia";
   cargarGerencias();$("sub").innerHTML='<option value="">Primero seleccione una gerencia</option>';
 };
@@ -126,26 +127,36 @@ function valores(){
 }
 function parrafos(v){
  const p1='Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+v.sv+'”, según OC N° '+v.oc+'.';
- const p2=v.t==="subgerencia"
-  ?'Al respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio correspondiente al '+v.ent+'.'
-  :'Al respecto, teniendo en consideración que la '+v.gn+' ha brindado la conformidad del servicio con el documento de la referencia, correspondiente al '+v.ent+'.';
+ let p2;
+ if(v.t==="subgerencia"){
+   if(v.a&&v.b) p2='Al respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio correspondiente al '+v.ent+'.';
+   else if(v.a||v.b||v.c) p2='Al respecto, teniendo en consideración que la '+v.sn+' ha brindado la conformidad del servicio mediante el documento de la referencia, correspondiente al '+v.ent+'.';
+   else p2='Al respecto, teniendo en consideración que la '+v.sn+' ha brindado la conformidad del servicio correspondiente al '+v.ent+'.';
+ }else{
+   p2=(v.a||v.b||v.c)
+    ?'Al respecto, teniendo en consideración que la '+v.gn+' ha brindado la conformidad del servicio con el documento de la referencia, correspondiente al '+v.ent+'.'
+    :'Al respecto, teniendo en consideración que la '+v.gn+' ha brindado la conformidad del servicio correspondiente al '+v.ent+'.';
+ }
  const p3='En ese sentido, se remite a vuestro despacho los siguientes documentos: Aceptación de Servicios, Formato 10 y Expediente de Pago, para las acciones correspondientes.';
  return[p1,p2,p3,'Atentamente,'];
 }
-function referenciasTexto(v){return v.t==="subgerencia"?'a) '+v.a+'\nb) '+v.b+(v.c?'\nc) '+v.c:''):'a) '+v.a}
+function referenciasTexto(v){
+ const r=[v.a,v.b,v.c].filter(Boolean);
+ return r.map((x,i)=>String.fromCharCode(97+i)+') '+x).join('\n');
+}
 function texto(v){return referenciasTexto(v)+'\n\n'+parrafos(v).join('\n\n')}
-function valido(v){return v.t&&v.g&&v.ent&&v.oc&&v.a&&v.n&&v.sv&&(v.t!=="subgerencia"||(v.s&&v.b))}
+function valido(v){return v.t&&v.g&&v.ent&&v.oc&&v.n&&v.sv&&(v.t!=="subgerencia"||v.s)}
 $("generar").onclick=()=>{const v=valores();if(!valido(v)){alert("Complete todos los campos obligatorios.");return}
- const refs=v.t==="subgerencia"?'a) '+esc(v.a)+'<br>b) '+esc(v.b)+(v.c?'<br>c) '+esc(v.c):''):'a) '+esc(v.a);
+ const rt=referenciasTexto(v);const refs=rt?rt.split('\n').map(esc).join('<br>'):'';
  const ps=parrafos(v);
- $("salida").innerHTML='<div class="refs">'+refs+'</div><div class="memo">'+ps.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>';
+ $("salida").innerHTML=(refs?'<div class="refs">'+refs+'</div>':'')+'<div class="memo">'+ps.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>';
 };
 $("limpiar").onclick=()=>{["refa","refb","refc","oc","nombre","servicio","tipoa","tipob","tipoc"].forEach(x=>$(x).value="");$("tipoDependencia").value="";$("entregable").value="Único Entregable";$("tipoDependencia").onchange();$("salida").innerHTML='<p class="empty">Complete los datos y pulse “Generar memorándum”.</p>'};
 async function copiarConFormato(){
   const v=valores();if(!valido(v)){alert("Primero genere un memorándum completo.");return}
   const wordStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:justify;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
   const refStyle='font-family:Arial,sans-serif;font-size:11pt;font-weight:400;mso-bidi-font-weight:normal;text-align:left;mso-line-height-rule:auto;line-height:150%;margin-top:0;margin-bottom:0;mso-margin-top-alt:0;mso-margin-bottom-alt:0;';
-  const refs='<p style="'+refStyle+'">'+referenciasTexto(v).split('\n').map(esc).join('<br>')+'</p><p style="'+refStyle+'">&nbsp;</p>';
+  const rt=referenciasTexto(v);const refs=rt?'<p style="'+refStyle+'">'+rt.split('\n').map(esc).join('<br>')+'</p><p style="'+refStyle+'">&nbsp;</p>':'';
   const p=t=>'<p style="'+wordStyle+'">'+esc(t)+'</p><p style="'+wordStyle+'">&nbsp;</p>';
   const html=refs+parrafos(v).map(p).join('');
   try{await navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([html],{type:"text/html"}),"text/plain":new Blob([texto(v)],{type:"text/plain"})})]);$("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600)}
