@@ -40,7 +40,12 @@ function formatoServicio(s){
     if(/^\s+$/.test(p)) return p;
     const limpio=p.replace(/^[¿¡"'“”‘’(\[]+|[.,;:!?'"“”‘’)\]]+$/g,"");
     if(!limpio) return p;
-    const base=limpio.toLocaleLowerCase("es-PE");
+    const original=limpio;
+    const base=original.toLocaleLowerCase("es-PE");
+    // Si el usuario escribe una sigla completamente en mayúsculas (ESSI, GCTIC, TI, etc.), se conserva.
+    if(original.length>=2 && original===original.toLocaleUpperCase("es-PE") && /[A-ZÁÉÍÓÚÜÑ]/.test(original)){
+      return p.replace(limpio,original);
+    }
     const palabra=(i>0 && minusculas.has(base))?base:base.charAt(0).toLocaleUpperCase("es-PE")+base.slice(1);
     return p.replace(limpio,palabra);
   }).join("");
