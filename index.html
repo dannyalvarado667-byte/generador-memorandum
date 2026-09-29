@@ -77,6 +77,11 @@ function formatoServicio(s){
   }).join("");
 }
 $("servicio").addEventListener("blur",e=>{e.target.value=formatoServicio(e.target.value.trim())});
+["refa","refb","refc"].forEach(id=>$(id).addEventListener("input",e=>{
+  const ini=e.target.selectionStart, fin=e.target.selectionEnd;
+  e.target.value=e.target.value.toLocaleUpperCase("es-PE");
+  e.target.setSelectionRange(ini,fin);
+}));
 $("nombre").addEventListener("input",e=>{const ini=e.target.selectionStart;e.target.value=nombrePropio(e.target.value);e.target.setSelectionRange(ini,ini)});
 $("gerencia").onchange=()=>{const g=$("gerencia").value;$("sub").innerHTML='<option value="">Seleccione...</option>';if(g)Object.entries(data[g].subs).forEach(([k,v])=>$("sub").add(new Option(k+" - "+v,k)))};
 function valores(){const g=$("gerencia").value,s=$("sub").value;return{g,s,gn:g?data[g].nombre:"",sn:g&&s?data[g].subs[s]:"",a:$("tipoa").value&&$("refa").value.trim()?$("tipoa").value+" "+$("refa").value.trim():"",b:$("tipob").value&&$("refb").value.trim()?$("tipob").value+" "+$("refb").value.trim():"",c:$("tipoc").value&&$("refc").value.trim()?$("tipoc").value+" "+$("refc").value.trim():"",n:nombrePropio($("nombre").value.trim()),sv:formatoServicio($("servicio").value.trim())}}
