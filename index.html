@@ -128,7 +128,8 @@ function valores(){
   n:nombrePropio($("nombre").value.trim()),sv:formatoServicio($("servicio").value.trim())}
 }
 function parrafos(v){
- const p1='Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+v.sv+'”, según OC N° '+v.oc+'.';
+ const servicioSinPunto=v.sv.replace(/\.\s*$/,'');
+ const p1='Tengo el agrado de dirigirme a usted para saludarlo cordialmente y, comunicarle que el proveedor '+v.n+', ha brindado el “'+servicioSinPunto+'”, según OC N° '+v.oc+'.';
  let p2;
  if(v.t==="subgerencia"){
    if(v.a&&v.b) p2='Al respecto, teniendo en consideración que la '+v.gn+' mediante el documento de la referencia a), traslada el documento de la referencia b), mediante el cual, la '+v.sn+', ha brindado la conformidad del servicio correspondiente al '+v.ent+'.';
