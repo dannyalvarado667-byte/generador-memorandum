@@ -19,13 +19,15 @@
 <label>Entregable</label>
 <select id="entregable"><option value="Único Entregable" selected>Único Entregable</option><option value="Primer Entregable">Primer Entregable</option><option value="Segundo Entregable">Segundo Entregable</option></select>
 
+<label>Nombre del locador(a)</label><input id="nombre" placeholder="Apellidos y nombres">
+
 <label>Orden de Compra</label>
 <div class="refrow"><input value="OC N°" disabled><input id="oc" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" autocomplete="off" placeholder="Ej.: 4505485464"></div>
 
 <label>Referencia a)</label><div class="refrow"><select id="tipoa"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refa" placeholder="Ej.: 001118-2026/GSIT-GCTIC"></div>
 <div id="bloqueRefB"><label>Referencia b)</label><div class="refrow"><select id="tipob"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refb" placeholder="Ej.: 000287-2026/SGSA-GSIT-GCTIC"></div></div>
 <div id="bloqueRefC"><label>Referencia c) <span style="font-weight:400;color:#6b7280">(opcional)</span></label><div class="refrow"><select id="tipoc"><option value="">Seleccione...</option><option value="NOTA N°">NOTA N°</option><option value="INFORME N°">INFORME N°</option></select><input id="refc" placeholder="Número del documento"></div></div>
-<label>Nombre del locador(a)</label><input id="nombre" placeholder="Apellidos y nombres">
+
 <label>Denominación del servicio</label><textarea id="servicio" placeholder="Ingrese la denominación exactamente como corresponde"></textarea>
 <div class="btns"><button class="primary" id="generar">Generar memorándum</button><button class="secondary" id="limpiar">Limpiar</button><button class="secondary" id="copiar">Copiar texto</button></div>
 </section>
