@@ -13,7 +13,7 @@
 <div class="form-grid">
 <div class="form-left form-block">
 <label>Tipo de dependencia del locador</label>
-<select id="tipoDependencia"><option value="">Seleccione...</option><option value="subgerencia">Subgerencia</option><option value="despacho">Despacho / Oficina</option></select>
+<select id="tipoDependencia"><option value="">Seleccione...</option><option value="despacho">Gerencia</option><option value="subgerencia">Sub Gerencia</option></select>
 
 <div id="bloqueGerencia" class="hidden"><label id="labelGerencia">Gerencia</label><select id="gerencia"><option value="">Seleccione...</option></select></div>
 <div id="bloqueSub" class="hidden"><label>Subgerencia</label><select id="sub"><option value="">Primero seleccione una gerencia</option></select></div>
@@ -122,7 +122,7 @@ $("tipoDependencia").onchange=()=>{
   $("bloqueSub").classList.toggle("hidden",t!=="subgerencia");
   $("bloqueRefB").classList.remove("hidden");
   $("bloqueRefC").classList.remove("hidden");
-  $("labelGerencia").textContent=t==="despacho"?"Despacho / Oficina":"Gerencia";
+  $("labelGerencia").textContent="Gerencia";
   cargarGerencias();$("sub").innerHTML='<option value="">Primero seleccione una gerencia</option>';
 };
 $("gerencia").onchange=()=>{
