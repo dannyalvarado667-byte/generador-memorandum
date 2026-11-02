@@ -5,11 +5,14 @@
 <title>Generador de Memorándum</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}.top{background:linear-gradient(120deg,#0876c9,#0759a8);color:#fff;padding:22px 5%;display:flex;align-items:center;gap:34px}.brand{font-size:42px;font-weight:700}.top h1{margin:0;font-size:30px}.top p{margin:4px 0 0;font-size:18px}.wrap{display:grid;grid-template-columns:minmax(620px,1.15fr) minmax(500px,.85fr);gap:20px;padding:20px;max-width:1500px;margin:auto}.card{background:#fff;border:1px solid #dce6f1;border-radius:14px;padding:22px;box-shadow:0 3px 14px #183b5b12}.title{font-size:22px;font-weight:700;margin:0 0 18px}.hint{background:#eaf5ff;color:#0759a8;padding:10px;border-radius:8px;margin-bottom:12px}label{display:block;font-weight:700;margin:10px 0 4px}select,input,textarea{width:100%;font:16px Arial;padding:8px 10px;border:1px solid #b8c7d9;border-radius:7px;background:#fff}.refrow{display:grid;grid-template-columns:145px 1fr;gap:8px}.form-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;row-gap:0;align-items:start}.form-left,.form-right{min-width:0}.form-service,.btns{grid-column:1/-1}.form-service textarea{min-height:72px}.hidden{display:none!important}.add-ref{margin-top:10px;background:#fff;border:1px dashed #0874c9;color:#0874c9;border-radius:7px;padding:6px 10px;font:15px Arial;font-weight:700;cursor:pointer}.refc-head{display:flex;align-items:end;justify-content:space-between}.refc-head label{flex:1}.remove-ref{margin-bottom:4px;background:#0874c9;border:1px solid #0874c9;border-radius:6px;width:30px;height:28px;font-size:22px;font-weight:700;line-height:20px;cursor:pointer;color:#fff;box-shadow:0 2px 5px #0874c940;transition:.15s}.remove-ref:hover{background:#0759a8;transform:scale(1.06)}.refrow select,.refrow input{min-width:0}textarea{min-height:72px;resize:vertical}.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.primary{grid-column:1/-1;background:#0874c9;color:white;border:0;border-radius:7px;padding:10px;font-size:17px;font-weight:700;cursor:pointer}.secondary{background:white;border:1px solid #b8c7d9;border-radius:7px;padding:9px;font-size:16px;cursor:pointer}.paper{border:1px solid #d4dde8;border-radius:6px;padding:36px 40px;min-height:650px;background:white}.refs{line-height:1.5;margin-bottom:30px}.memo p{font-family:Arial,sans-serif;font-weight:400;line-height:1.5;text-align:justify;margin:0 0 18px}.empty{color:#7b8794;text-align:center!important;margin-top:180px!important}.ok{color:#187a39;font-size:14px;margin-left:8px;display:none}.copy-result{float:right;background:#0874c9;color:#fff;border:0;border-radius:7px;padding:9px 14px;font:15px Arial;cursor:pointer}.input-card{font-size:80%}.input-card .title{font-size:18px}.input-card select,.input-card input,.input-card textarea{font-size:13px}.input-card .hint{font-size:13px}.input-card .primary{font-size:14px}.input-card .secondary{font-size:13px}.input-card .add-ref{font-size:12px}.form-block{background:#f1f8ff;border:1px solid #dcecf9;border-radius:9px;padding:10px 12px}.form-service{margin-top:12px}.form-left,.form-right{height:fit-content}@media(max-width:1100px){.form-grid{grid-template-columns:1fr}.form-service,.btns{grid-column:1}.form-right{margin-top:0}}@media(max-width:900px){.wrap{grid-template-columns:1fr}.top{padding:18px}.brand{font-size:30px}.top h1{font-size:23px}.paper{padding:25px 22px}}
+
+.ocr-box{grid-column:1/-1;background:#edf6ff;border:1px solid #8dbce8;border-radius:10px;padding:12px;margin-bottom:12px;color:#172033}.ocr-box h3{margin:0 0 6px;font-size:16px}.ocr-box p{margin:5px 0;font-size:13px}.ocr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ocr-actions button,.ocr-actions label{background:#0759a8;color:#fff;border:0;border-radius:7px;padding:9px 12px;font:700 13px Arial;cursor:pointer;margin:0}.ocr-actions input{display:none}.ocr-status{font-size:13px;margin-top:9px;white-space:pre-wrap;color:#172033}.ocr-preview{display:none;margin-top:10px}.ocr-preview label{color:#172033}.ocr-preview input,.ocr-preview textarea{font-size:13px;background:white;color:#172033}.ocr-preview button{background:#0759a8;color:white;border:0;border-radius:7px;padding:10px;cursor:pointer;margin-top:8px}@media(max-width:900px){.ocr-box{color:#172033}.ocr-actions button,.ocr-actions label{font-size:13px}}
 </style></head>
 <body>
 <header class="top"><div class="brand">GCTIC</div><div><h1>Generador de Memorándum</h1><p>Pago de locación de servicios · Versión 1.0</p></div></header>
 <main class="wrap">
 <section class="card input-card"><h2 class="title">1. Ingresar datos</h2><div class="hint">Complete únicamente los datos variables. El sistema generará la redacción del memorándum.</div>
+<div class="ocr-box" id="ocrBox" tabindex="0"><h3>📋 Leer captura de Orden de Compra (SAP)</h3><p>Pega aquí la imagen con Ctrl + V, o selecciónala. Solo se extraerán nombre, número de OC y denominación del servicio.</p><div class="ocr-actions"><button type="button" id="ocrPegar">Pegar captura</button><label for="ocrArchivo">Seleccionar imagen</label><input id="ocrArchivo" type="file" accept="image/*"></div><div class="ocr-status" id="ocrEstado" role="status" aria-live="polite"></div><div class="ocr-preview" id="ocrVista"><label>Nombre reconocido</label><input id="ocrNombre"><label>N.º de OC reconocido</label><input id="ocrNumero"><label>Servicio reconocido</label><textarea id="ocrServicio" rows="4"></textarea><button type="button" id="ocrAplicar">Confirmar y completar formulario</button></div></div>
 <div class="form-grid">
 <div class="form-left form-block">
 <label>Tipo de dependencia del locador</label>
@@ -180,4 +183,76 @@ async function copiarConFormato(){
 $("copiarFormato").onclick=copiarConFormato;
 $("copiar").onclick=async()=>{const v=valores();if(!valido(v)){alert("Primero genere un memorándum completo.");return}await navigator.clipboard.writeText(texto(v));$("ok").style.display="inline";setTimeout(()=>$("ok").style.display="none",1600)};
 function esc(x){return x.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+/* Lector local de capturas SAP: únicamente tres campos */
+(function(){
+ const status=$("ocrEstado"),vista=$("ocrVista");
+ function informar(t){status.textContent=t}
+ function normalizar(s){return s.replace(/\r/g,"").replace(/[ \t]+/g," ").trim()}
+ function extraer(raw){
+  const lines=raw.split(/\n/).map(normalizar).filter(Boolean);
+  const idx=(re)=>lines.findIndex(x=>re.test(x));
+  const nidx=idx(/(?:proveedor|proovedor)\s*:/i);
+  let nombre="";
+  if(nidx>=0){nombre=lines[nidx].replace(/^.*?provee?dor\s*:\s*/i,"").trim();if(!nombre)nombre=lines[nidx+1]||""}
+  nombre=nombre.replace(/^(?:NOMBRE\s*:?\s*)/i,"").trim();
+  const oidx=idx(/(?:n[°ºo.]?\s*(?:orden|de\s*orden)|orden\s+de\s+compra)\s*:/i);
+  let oc="";
+  if(oidx>=0){const segment=[lines[oidx],...lines.slice(oidx+1,oidx+3)].join(" ");oc=(segment.match(/\b45\d{8}\b/)||segment.match(/\b\d{10}\b/)||[])[0]||""}
+  if(!oc){oc=(raw.match(/(?:N[°ºo.]?\s*Orden\s+de\s+Compra|Orden\s+de\s+Compra)\s*:\s*(\d{10})/i)||[])[1]||""}
+  // La denominación está antes de DEPENDENCIA, SEGUN LOS TERMINOS o SOLPED.
+  let inicio=lines.findIndex(x=>/^(?:SERVICIO|CONTRATACI[ÓO]N|ASISTENCIA|SOPORTE|CONSULTOR[IÍ]A)\b/i.test(x));
+  let servicio="";
+  if(inicio>=0){
+   const partes=[];
+   for(let i=inicio;i<Math.min(lines.length,inicio+14);i++){
+    const l=lines[i];
+    if(/^(?:DEPENDENCIA\s*:|SEG[ÚU]N\s+LOS\s+T[EÉ]RMINOS|SOLPED\s*:|EX\s*:|N[°ºo.]?\s*ORDEN)/i.test(l))break;
+    partes.push(l);
+   }
+   servicio=partes.join(" ").replace(/\s+/g," ").trim();
+  }
+  // No rellenar campos inciertos ni arrastrar encabezados de otras secciones.
+  if(/^(?:NIT|DIRECCI[ÓO]N|TEL[EÉ]FONO|CORREO|FACTURAR|ENTREGAR)/i.test(nombre))nombre="";
+  return {nombre,oc,servicio};
+ }
+ async function leer(file){
+  if(!file||!file.type.startsWith("image/")){informar("Selecciona una imagen válida.");return}
+  vista.style.display="none";informar("Reconociendo texto de la captura… La primera vez puede tardar unos segundos.");
+  try{
+   if(!window.Tesseract){
+    await new Promise((resolve,reject)=>{
+     const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+     sc.onload=resolve;sc.onerror=()=>reject(new Error("No se pudo cargar el motor OCR. Revisa tu conexión."));document.head.appendChild(sc);
+    });
+   }
+   const worker=await Tesseract.createWorker("spa+eng");
+   let result;
+   try{result=await worker.recognize(file)}finally{await worker.terminate()}
+   const data=extraer(result.data.text||"");
+   $("ocrNombre").value=data.nombre;$("ocrNumero").value=data.oc;$("ocrServicio").value=data.servicio;
+   vista.style.display="block";
+   informar("Revisa los tres campos antes de confirmar."+(Object.values(data).some(v=>!v)?" Algunos datos no se reconocieron; complétalos manualmente.":""));
+  }catch(e){informar("No se pudo leer la captura: "+e.message)}
+ }
+ $("ocrArchivo").addEventListener("change",e=>leer(e.target.files[0]));
+ $("ocrPegar").addEventListener("click",async()=>{
+  try{
+   const items=await navigator.clipboard.read();
+   for(const item of items){const type=item.types.find(t=>t.startsWith("image/"));if(type){await leer(await item.getType(type));return}}
+   informar("El portapapeles no contiene una imagen.");
+  }catch(e){informar("El navegador no permitió leer el portapapeles. Haz clic en el recuadro y pulsa Ctrl + V, o selecciona un archivo.")}
+ });
+ document.addEventListener("paste",e=>{
+  const images=Array.from(e.clipboardData?.items||[]).filter(x=>x.type.startsWith("image/"));
+  if(images.length){e.preventDefault();leer(images[0].getAsFile())}
+ });
+ $("ocrAplicar").addEventListener("click",()=>{
+  const nombre=$("ocrNombre").value.trim(),oc=$("ocrNumero").value.trim(),servicio=$("ocrServicio").value.trim();
+  if(!nombre||!servicio||!/^\d{10}$/.test(oc)){informar("Completa nombre y servicio y verifica que la OC tenga exactamente 10 dígitos.");return}
+  $("nombre").value=nombrePropio(nombre);$("oc").value=oc;$("servicio").value=formatoServicio(servicio);
+  informar("✓ Datos incorporados al formulario. Puedes generar tu memorándum.");vista.style.display="none";
+ });
+})();
+
 </script></body></html>
