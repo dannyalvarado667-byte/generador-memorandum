@@ -194,7 +194,12 @@ function esc(x){return x.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt
   const idx=(re)=>lines.findIndex(x=>re.test(x));
   const nidx=idx(/(?:proveedor|proovedor)\s*:/i);
   let nombre="";
-  if(nidx>=0){nombre=lines[nidx].replace(/^.*?provee?dor\s*:\s*/i,"").trim();if(!nombre)nombre=lines[nidx+1]||""}
+  if(nidx>=0){
+    const inline=lines[nidx].split(/provee?dor\s*:/i).pop().trim();
+    const candidatos=[inline,...lines.slice(nidx+1,nidx+12)];
+    const excluido=/^(?:Orden de Compra|N[°ºo.]?\s*Orden|NIT|RUC|Direcci[oó]n|Tel[eé]fono|Correo|Facturar|Entregar|Fecha|P[aá]g\.|Plazo|Moneda|Centro|Organizaci[oó]n|N[°ºo.]?\s*de Proceso|Motivo de Pedido)/i;
+    nombre=candidatos.find(x=>x&&!excluido.test(x)&&!/\d{5,}/.test(x)&&/^[A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ .\x27-]{8,}$/i.test(x)&&x.trim().split(/\s+/).length>=3)||"";
+  }
   nombre=nombre.replace(/^(?:NOMBRE\s*:?\s*)/i,"").trim();
   const oidx=idx(/(?:n[°ºo.]?\s*(?:orden|de\s*orden)|orden\s+de\s+compra)\s*:/i);
   let oc="";
