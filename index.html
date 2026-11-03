@@ -88,6 +88,9 @@ function corregirTilde(p){
   return tildesServicio[k]||p;
 }
 function formatoServicio(s){
+  // Siglas institucionales: respetar mayúsculas aunque se escriban en minúsculas.
+  const siglasInstitucionales=new Set(["essalud","gctic","gsit","gprod","osin","sgsa","sgsass","sgsasist","sgst","sgoti","sgcom","sap","sctr","eps","ruc","oc","ti"]);
+
   const minusculas=new Set(["a","al","de","del","el","en","la","las","los","o","para","por","y"]);
   return s.toLocaleLowerCase("es-PE").split(/(\s+)/).map((p,i)=>{
     if(/^\s+$/.test(p)) return p;
@@ -96,6 +99,7 @@ function formatoServicio(s){
     const original=limpio;
     const corregido=corregirTilde(original);
     const base=corregido.toLocaleLowerCase("es-PE");
+    if(siglasInstitucionales.has(base)) return p.replace(limpio,base.toLocaleUpperCase("es-PE"));
     // Si el usuario escribe una sigla completamente en mayúsculas (ESSI, GCTIC, TI, etc.), se conserva.
     if(original.length>=2 && original===original.toLocaleUpperCase("es-PE") && /[A-ZÁÉÍÓÚÜÑ]/.test(original) && !tildesServicio[original.toLocaleLowerCase("es-PE")]){
       return p.replace(limpio,original);
