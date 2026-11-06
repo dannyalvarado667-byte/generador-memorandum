@@ -228,6 +228,24 @@ function esc(x){return x.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt
   if(/^(?:NIT|DIRECCI[ÓO]N|TEL[EÉ]FONO|CORREO|FACTURAR|ENTREGAR)/i.test(nombre))nombre="";
   return {nombre,oc,servicio};
  }
+ async function reconocerOcEnRecuadro(worker,file){
+  const bitmap=await createImageBitmap(file);
+  try{
+   const canvas=document.createElement("canvas");
+   // SAP: el número está en la zona superior derecha, debajo del rótulo de OC.
+   const x=Math.floor(bitmap.width*.47),y=Math.floor(bitmap.height*.12);
+   const w=bitmap.width-x,h=Math.floor(bitmap.height*.30);
+   canvas.width=w*2;canvas.height=h*2;
+   const ctx=canvas.getContext("2d");
+   ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+   ctx.drawImage(bitmap,x,y,w,h,0,0,canvas.width,canvas.height);
+   const r=await worker.recognize(canvas);
+   const text=r.data.text||"";
+   const candidates=[...text.matchAll(/(?:^|[^\d])((?:45)[\d\s]{8,14})(?!\d)/gm)]
+    .map(m=>m[1].replace(/\D/g,"")).filter(x=>/^45\d{8}$/.test(x));
+   return [...new Set(candidates)].length===1?candidates[0]:"";
+  }finally{bitmap.close()}
+ }
  async function leer(file){
   if(!file||!file.type.startsWith("image/")){informar("Selecciona una imagen válida.");return}
   vista.style.display="none";informar("Reconociendo texto de la captura… La primera vez puede tardar unos segundos.");
@@ -240,8 +258,14 @@ function esc(x){return x.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt
    }
    const worker=await Tesseract.createWorker("spa+eng");
    let result;
-   try{result=await worker.recognize(file)}finally{await worker.terminate()}
+   let ocRecuadro="";
+   try{
+    result=await worker.recognize(file);
+    const preliminar=extraer(result.data.text||"");
+    if(!preliminar.oc)ocRecuadro=await reconocerOcEnRecuadro(worker,file);
+   }finally{await worker.terminate()}
    const data=extraer(result.data.text||"");
+   if(!data.oc&&ocRecuadro)data.oc=ocRecuadro;
    $("ocrNombre").value=data.nombre;$("ocrNumero").value=data.oc;$("ocrServicio").value=data.servicio;
    vista.style.display="block";
    informar("Revisa los tres campos antes de confirmar."+(Object.values(data).some(v=>!v)?" Algunos datos no se reconocieron; complétalos manualmente.":""));
